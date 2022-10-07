@@ -12,10 +12,10 @@ class Diretor(models.Model):
 
 class Produtora(models.Model):
     produtora = models.CharField(max_length = 200, unique=True)
-    nome_contato = models.CharField(max_length = 200, unique=True)
-    telefone = models.CharField(max_length = 20, unique=True)
-    email = models.EmailField()
-    endereco = models.CharField(max_length = 200, unique=True)
+    nome_contato = models.CharField(max_length = 200, unique=True, blank=True)
+    telefone = models.CharField(max_length = 20, unique=True, blank=True)
+    email = models.EmailField(blank=True)
+    endereco = models.CharField(max_length = 200, unique=True, blank=True)
 
 
     def __str__(self):
@@ -24,11 +24,11 @@ class Produtora(models.Model):
 class AudioVisual(models.Model):
     titulo = models.CharField(max_length = 200, unique=True)
     diretor = models.ManyToManyField(Diretor)
-    video = models.CharField(max_length = 500, unique=True)
-    data = models.DateField()
+    video = models.CharField(max_length = 500, unique=True, blank=True)
+    data = models.DateField(blank=True)
     ativo = models.BooleanField(default=False)
     creado = models.DateTimeField(auto_now_add=True)
-    produtora = models.ManyToManyField(Produtora)
+    produtora = models.ManyToManyField(Produtora, blank=True)
     #fotos
     def __str__(self):
         return self.titulo
@@ -36,12 +36,12 @@ class AudioVisual(models.Model):
 
 class Teatro(models.Model):
     titulo = models.CharField(max_length = 200, unique=True)
-    diretor = models.ManyToManyField(Diretor)
-    video = models.CharField(max_length = 500, unique=True)
+    diretor = models.ManyToManyField(Diretor, blank=True)
+    video = models.CharField(max_length = 500, unique=True, blank=True)
     data = models.DateField()
     ativo = models.BooleanField(default=False)
     creado = models.DateTimeField(auto_now_add=True)
-    produtora = models.ManyToManyField(Produtora)
+    produtora = models.ManyToManyField(Produtora, blank=True)
 
     Personagem = models.CharField(max_length = 200, unique=True)
     #fotos
@@ -50,20 +50,20 @@ class Teatro(models.Model):
 
 class Locucao(models.Model):
     titulo = models.CharField(max_length = 200, unique=True)
-    diretor = models.ManyToManyField(Diretor)
-    video = models.CharField(max_length = 500, unique=True)
+    diretor = models.ManyToManyField(Diretor, blank=True)
+    video = models.CharField(max_length = 500, unique=True, blank=True)
     data = models.DateField()
     ativo = models.BooleanField(default=False)
     creado = models.DateTimeField(auto_now_add=True)
-    produtora = models.ManyToManyField(Produtora)
+    produtora = models.ManyToManyField(Produtora, blank=True)
 
     def __str__(self):
         return self.titulo
 
 class Youtube(models.Model):
     titulo = models.CharField(max_length = 200, unique=True)
-    video = models.CharField(max_length = 500, unique=True)
-    descricao = models.TextField()
+    video = models.CharField(max_length = 500, unique=True, blank=True)
+    descricao = models.TextField(blank=True)
     data = models.DateField()
     ativo = models.BooleanField(default=False)
     creado = models.DateTimeField(auto_now_add=True)
@@ -75,7 +75,7 @@ class Youtube(models.Model):
 
 class Publicidade(models.Model):
     empresa = models.CharField(max_length = 200, unique=True)
-    video = models.CharField(max_length = 500, unique=True)
+    video = models.CharField(max_length = 500, unique=True, blank=True)
     data = models.DateField()
     ativo = models.BooleanField(default=False)
     creado = models.DateTimeField(auto_now_add=True)

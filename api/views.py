@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import Teatro, AudioVisual, Diretor, Produtora, Publicidade, Youtube, Locucao
 from api.serializers import TeatroSerializer, AudioVisualSerializer, DiretorSerializer, ProdutoraSerializer, PublicidadeSerializer, YoutubeSerializer, LocucaoSerializer
 from  rest_framework import viewsets, status
@@ -23,9 +23,20 @@ class DiretorViewSet(viewsets.ModelViewSet):
 
 
 class ProdutoraViewSet(viewsets.ModelViewSet):
-    queryset = Produtora.objects.all()
-    serializer_class = (ProdutoraSerializer)
+    '''
+        only ViewSet for which I have used functions on
+    '''
+    def list(self, request):
+        queryset = Produtora.objects.all()
+        serializer = ProdutoraSerializer(queryset, many=True)
+        return Response(serializer.data)
 
+    def retrieve(self, request, pk=None):
+        queryset = Produtora.objects.all()
+        produtora = get_object_or_404(queryset, pk=pk)
+        serializer = ProdutoraSerializer(produtora)
+        return Response(serializer.data)
+        
 
 class LocucaoViewSet(viewsets.ModelViewSet):
     queryset = Locucao.objects.all()
