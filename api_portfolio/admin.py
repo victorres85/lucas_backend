@@ -1,12 +1,12 @@
 from django.contrib import admin
 
-from api.models import AudioVisual, Diretor, Locucao, Produtora, Teatro, Youtube
+from .models import AudioVisual, Locucao, Produtora, Teatro, Youtube, Director
 
 # Register your models here.
 
 @admin.register(Teatro)
 class TeatroAdmin(admin.ModelAdmin):
-    list_display = ('titulo',)
+    list_display = ['titulo', 'director', 'video','data', 'ativo' ]
 
 @admin.register(AudioVisual)
 class AudioVisualAdmin(admin.ModelAdmin):
@@ -20,8 +20,8 @@ class LocucaoAdmin(admin.ModelAdmin):
 class YoutubeAdmin(admin.ModelAdmin):
     pass
 
-@admin.register(Diretor)
-class DiretorAdmin(admin.ModelAdmin):
+@admin.register(Director)
+class DirectorAdmin(admin.ModelAdmin):
     pass
 
 @admin.register(Produtora)

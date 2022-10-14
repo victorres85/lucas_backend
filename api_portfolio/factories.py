@@ -2,22 +2,25 @@ from re import T
 import factory
 import datetime
 import factory.fuzzy 
+from faker import Faker
 
-from .models import AudioVisual, Teatro, Publicidade, Locucao, Youtube, Produtora, Diretor
+fake = Faker()
+
+from .models import AudioVisual, Teatro, Publicidade, Locucao, Youtube, Produtora, Director
 
 
-class DiretorFactory(factory.django.DjangoModelFactory):
-    nome  = factory.Faker('pystr')
+class DirectorFactory(factory.django.DjangoModelFactory):
+    nome  = fake.name()
         
     class Meta:
-        model = Diretor
+        model = Director
 
 class ProdutoraFactory(factory.django.DjangoModelFactory):
-    produtora  = factory.Faker('pystr')
-    nome_completo  = factory.Faker('pystr')
-    telefone  = factory.Faker('pyint')
-    email  = factory.Faker('pystr')
-    endereco  = factory.Faker('pystr')
+    produtora  = fake.company()
+    nome_contato  = fake.name()
+    telefone  = fake.phone_number()
+    email  = fake.ascii_company_email()
+    endereco  = fake.address()
 
     class Meta:
         model = Produtora
@@ -25,16 +28,17 @@ class ProdutoraFactory(factory.django.DjangoModelFactory):
 
 class AudioVisualFactory(factory.django.DjangoModelFactory):
     titulo = factory.Faker('pystr')
-    diretor = factory.LazyAttribute(DiretorFactory)
+    director = factory.SubFactory(DirectorFactory)
     video = factory.Faker('pystr')
     data = factory.LazyFunction(factory.fuzzy.FuzzyDate(datetime.date(1990, 6, 1), datetime.date.today()))
     ativo = factory.Faker([True, False])
     creado = factory.LazyFunction(factory.fuzzy.FuzzyDate(datetime.date(1990, 6, 1), datetime.date.today()))
-    produtora = factory.LazyAttribute(ProdutoraFactory)
+    produtora = factory.SubFactory(ProdutoraFactory)
 
     @factory.post_generation
-    def diretor(self, create, extracted, **kwargs):
+    def director(self, create, extracted, **kwargs):
         if not create:
+            DirectorFactory.create()
             return
         if extracted:
             for diretor in extracted:
@@ -55,33 +59,34 @@ class AudioVisualFactory(factory.django.DjangoModelFactory):
 
 
 class TeatroFactory(factory.django.DjangoModelFactory):
-    titulo = factory.Faker('pystr')
-    diretor = factory.LazyAttribute(DiretorFactory)
-    video = factory.Faker('pystr')
-    data = factory.LazyFunction(factory.fuzzy.FuzzyDate(datetime.date(1990, 6, 1), datetime.date.today()))
-    ativo = factory.Faker([True, False])
-    creado = factory.LazyFunction(factory.fuzzy.FuzzyDate(datetime.date(1990, 6, 1), datetime.date.today()))
-    produtora = factory.LazyAttribute(ProdutoraFactory)
-
-    @factory.post_generation
-    def diretor(self, create, extracted, **kwargs):
-        if not create:
-            return
-        if extracted:
-            for diretor in extracted:
-                self.diretor.add(diretor)
-
-
-    @factory.post_generation
-    def produtora(self, create, extracted, **kwargs):
-        if not create:
-            return
-        if extracted:
-            for produtora in extracted:
-                self.produtora.add(produtora)
-
     class Meta:
         model = Teatro
+
+    titulo = factory.Faker('pystr')
+    director = factory.SubFactory(DirectorFactory)
+    video = factory.Faker('pystr')
+    data = fake.date()
+    ativo = fake.boolean(chance_of_getting_true=50)
+    creado = fake.date()
+    produtora = factory.SubFactory(ProdutoraFactory)
+    personagem = fake.name()
+
+    # @factory.post_generation
+    # def diretor(self, create, extracted, **kwargs):
+    #     if not create:
+    #         return
+    #     if extracted:
+    #         for diretor in extracted:
+    #             self.diretor.add(diretor)
+
+
+    # @factory.post_generation
+    # def produtora(self, create, extracted, **kwargs):
+    #     if not create:
+    #         return
+    #     if extracted:
+    #         for produtora in extracted:
+    #             self.produtora.add(produtora)
 
 
 class PublicidadeFactory(factory.django.DjangoModelFactory):
@@ -97,29 +102,29 @@ class PublicidadeFactory(factory.django.DjangoModelFactory):
 
 class LocucaoFactory(factory.django.DjangoModelFactory):
     titulo  = factory.Faker('pystr')
-    diretor = factory.LazyAttribute(DiretorFactory)
+    director = factory.SubFactory(DirectorFactory)
     video  = factory.Faker('pystr')
     data = factory.LazyFunction(factory.fuzzy.FuzzyDate(datetime.date(1990, 6, 1), datetime.date.today()))
     ativo  = factory.Faker([True, False])
     creado = factory.LazyFunction(factory.fuzzy.FuzzyDate(datetime.date(1990, 6, 1), datetime.date.today()))
-    produtora = factory.LazyAttribute(ProdutoraFactory)
+    produtora = factory.SubFactory(ProdutoraFactory)
 
-    @factory.post_generation
-    def diretor(self, create, extracted, **kwargs):
-        if not create:
-            return
-        if extracted:
-            for diretor in extracted:
-                self.diretor.add(diretor)
+    # @factory.post_generation
+    # def diretor(self, create, extracted, **kwargs):
+    #     if not create:
+    #         return
+    #     if extracted:
+    #         for diretor in extracted:
+    #             self.diretor.add(diretor)
 
 
-    @factory.post_generation
-    def produtora(self, create, extracted, **kwargs):
-        if not create:
-            return
-        if extracted:
-            for produtora in extracted:
-                self.produtora.add(produtora)
+    # @factory.post_generation
+    # def produtora(self, create, extracted, **kwargs):
+    #     if not create:
+    #         return
+    #     if extracted:
+    #         for produtora in extracted:
+    #             self.produtora.add(produtora)
 
     class Meta:
         model = Locucao
@@ -127,7 +132,7 @@ class LocucaoFactory(factory.django.DjangoModelFactory):
 class YoutubeFactory(factory.django.DjangoModelFactory):
     titulo  = factory.Faker('pystr')
     video  = factory.Faker('pystr')
-    descricao  = factory.Faker('pystr')
+    descricao  = fake.text()
     data = factory.LazyFunction(factory.fuzzy.FuzzyDate(datetime.date(1990, 6, 1), datetime.date.today()))
     ativo  = factory.Faker([True, False])
     creado = factory.LazyFunction(factory.fuzzy.FuzzyDate(datetime.date(1990, 6, 1), datetime.date.today()))

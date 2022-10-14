@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Teatro, AudioVisual, Diretor, Produtora, Publicidade, Youtube, Locucao
-from api.serializers import TeatroSerializer, AudioVisualSerializer, DiretorSerializer, ProdutoraSerializer, PublicidadeSerializer, YoutubeSerializer, LocucaoSerializer
+from .models import Teatro, AudioVisual, Director, Produtora, Publicidade, Youtube, Locucao
+from .serializers import TeatroSerializer, AudioVisualSerializer, DirectorSerializer, ProdutoraSerializer, PublicidadeSerializer, YoutubeSerializer, LocucaoSerializer
 from  rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
@@ -17,9 +17,9 @@ class AudioVisualViewSet(viewsets.ModelViewSet):
     serializer_class = (AudioVisualSerializer)
 
 
-class DiretorViewSet(viewsets.ModelViewSet):
-    queryset = Diretor.objects.all()
-    serializer_class = (DiretorSerializer)
+class DirectorViewSet(viewsets.ModelViewSet):
+    queryset = Director.objects.all()
+    serializer_class = (DirectorSerializer)
 
 
 class ProdutoraViewSet(viewsets.ModelViewSet):
