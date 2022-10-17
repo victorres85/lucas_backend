@@ -3,6 +3,7 @@ from django.db import models
 # Create your models here.
 
 
+
 class Director(models.Model):
     nome = models.CharField(max_length = 200, unique=True)
 
@@ -28,7 +29,7 @@ class AudioVisual(models.Model):
     ativo = models.BooleanField(default=False)
     creado = models.DateTimeField(auto_now_add=True)
     produtora = models.ManyToManyField(Produtora, blank=True)
-    image = models.ImageField(upload_to='media/audiovisual/%y/%m/%d', blank=True)    
+    image = models.ImageField(upload_to='media/audiovisual/%y/%m/%d', null=True, blank=True)    
     
     def __str__(self):
         return self.titulo
@@ -44,9 +45,14 @@ class Teatro(models.Model):
     produtora = models.ForeignKey(Produtora, related_name='Produtora', on_delete=models.CASCADE, blank=True)
     image = models.ImageField(upload_to='media/teatro/%y/%m/%d', blank=True)    
     personagem = models.CharField(max_length = 200, unique=True)
-    #fotos
+
     def __str__(self):
         return self.titulo
+
+    def countTeatro(self):
+        count = Teatro.objects.all().count()
+        return count
+
 
 class Locucao(models.Model):
     titulo = models.CharField(max_length = 200, unique=True)
@@ -86,3 +92,58 @@ class Publicidade(models.Model):
     
     def __str__(self):
         return self.empresa
+
+class Book(models.Model):
+    book = models.CharField(max_length=200)
+
+
+class Trabalhos(models.Model):
+    TRABALHO_CHOICES = [
+    ('Teatro', 'Teatro'),
+    ('Audio Visual', 'Audio Visual'),
+    ('Locucao', 'Locucao'),
+    ('Youtube', 'Youtube'),
+    ('Publicidade', 'Publicidade'),
+]
+    trabalho = models.CharField(max_length = 12, choices = TRABALHO_CHOICES, default=Youtube)
+
+    titulo = models.CharField(max_length = 200, unique=True)
+    director = models.ForeignKey(Director, on_delete=models.CASCADE)
+    video = models.CharField(max_length = 500, unique=True, blank=True)
+    data = models.DateField(blank=True)
+    ativo = models.BooleanField(default=False)
+    creado = models.DateTimeField(auto_now_add=True)
+    produtora = models.ManyToManyField(Produtora, blank=True)
+    personagem = models.CharField(max_length=200, null=True, blank=True)
+    image = models.ImageField(upload_to='media/audiovisual/%y/%m/%d', null=True, blank=True)    
+
+    def countTeatro(self):
+        teatro = Trabalhos.objects.all().filter(trabalho='Teatro').count()
+        return teatro
+
+    def countAudioVisual(self):
+        audioVisual = Trabalhos.objects.all().filter(trabalho='Audio Visual').count()
+        return audioVisual
+
+    def countYoutube(self):
+        youtube = Trabalhos.objects.all().filter(trabalho='Youtube').count()
+        return youtube
+
+    def countPublicidade(self):
+        publicidade = Trabalhos.objects.all().filter(trabalho='Publicidade').count()
+        return publicidade
+
+    def countLocucao(self):
+        locucao = Trabalhos.objects.all().filter(trabalho='Locucao').count()
+        return locucao
+
+
+class Album(models.Model):
+    image = models.ImageField(upload_to='media/album/%y/%m/%d', blank=True)
+#    teatro = models.ForeignKey(Teatro, on_delete=models.CASCADE, null=True)
+#    audioVisual = models.ForeignKey(AudioVisual, on_delete=models.CASCADE, null=True)
+    trabalhos = models.ForeignKey(Trabalhos, on_delete=models.CASCADE, null=True)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, null=True)
+    
+    def __str__(self):
+        return str(self.image)[21:]

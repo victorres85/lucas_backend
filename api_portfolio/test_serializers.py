@@ -1,9 +1,9 @@
 from turtle import title
 from django.test import TestCase
-from .models import Teatro, AudioVisual, Director, Produtora
+from .models import Trabalhos, Director, Produtora
 
 from .factories import TeatroFactory, DirectorFactory, ProdutoraFactory
-from .serializers import TeatroSerializer, DirectorSerializer, ProdutoraSerializer
+from .serializers import TrabalhosSerializer, DirectorSerializer, ProdutoraSerializer
 
 
 class Test_TeatroSerializer(TestCase):

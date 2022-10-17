@@ -1,21 +1,11 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Teatro, AudioVisual, Director, Produtora, Publicidade, Youtube, Locucao
-from .serializers import TeatroSerializer, AudioVisualSerializer, DirectorSerializer, ProdutoraSerializer, PublicidadeSerializer, YoutubeSerializer, LocucaoSerializer
+from .models import Director, Produtora, Trabalhos
+from .serializers import DirectorSerializer, ProdutoraSerializer, TrabalhosSerializer
 from  rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
 
 # Create your views here.
-
-class TeatroViewSet(viewsets.ModelViewSet):
-    queryset = Teatro.objects.all()
-    serializer_class = (TeatroSerializer)
-
-
-class AudioVisualViewSet(viewsets.ModelViewSet):
-    queryset = AudioVisual.objects.all()
-    serializer_class = (AudioVisualSerializer)
-
 
 class DirectorViewSet(viewsets.ModelViewSet):
     queryset = Director.objects.all()
@@ -38,16 +28,7 @@ class ProdutoraViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
         
 
-class LocucaoViewSet(viewsets.ModelViewSet):
-    queryset = Locucao.objects.all()
-    serializer_class = (LocucaoSerializer)
 
-
-class YoutubeViewSet(viewsets.ModelViewSet):
-    queryset = Youtube.objects.all()
-    serializer_class = (YoutubeSerializer)
-
-
-class PublicidadeViewSet(viewsets.ModelViewSet):
-    queryset = Publicidade.objects.all()
-    serializer_class = (PublicidadeSerializer)
+class TrabalhosViewSet(viewsets.ModelViewSet):
+    queryset = Trabalhos.objects.all()
+    serializer_class = (TrabalhosSerializer)
