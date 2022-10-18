@@ -9,10 +9,10 @@ class DirectorSerializer(serializers.ModelSerializer):
 class TrabalhosSerializer(serializers.ModelSerializer):
     class Meta:
         model = Trabalhos
-        fields = ('titulo', 'director', 'video', 'image', 'data', 'ativo', 'creado', 'produtora', 'personagem', 'countTeatro')
+        fields = ('id', 'trabalho', 'titulo', 'director', 'video', 'image', 'data', 'ativo', 'creado', 'produtora', 'personagem', 'countTeatro')
 
 
 class ProdutoraSerializer(serializers.ModelSerializer):
     class Meta:
         model = Produtora
-        fields = ('produtora', 'nome_completo', 'telefone', 'email', 'endereco')
+        fields = ('id', 'produtora', 'nome_completo', 'telefone', 'email', 'endereco')

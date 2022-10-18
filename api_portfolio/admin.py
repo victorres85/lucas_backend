@@ -1,7 +1,7 @@
 from attr import fields
 from django.contrib import admin
 
-from .models import Trabalhos, AudioVisual, Locucao, Produtora, Teatro, Youtube, Director, Album
+from .models import Trabalhos, Produtora, Director, Album
 
 # Register your models here.
 class AlbumInline(admin.TabularInline):
@@ -10,7 +10,7 @@ class AlbumInline(admin.TabularInline):
 
 @admin.register(Trabalhos)
 class TrabalhosAdmin(admin.ModelAdmin):
-    list_display = ['trabalho', 'titulo', 'director', 'video','data', 'ativo' ]
+    list_display = ['trabalho', 'titulo', 'video','data', 'ativo' ]
     inlines=[AlbumInline]
 
 # @admin.register(Teatro)
