@@ -33,7 +33,6 @@ class Trabalhos(models.Model):
     ('Publicidade', 'Publicidade'),
 ]
     trabalho = models.CharField(max_length = 12, choices = TRABALHO_CHOICES, default='Youtube')
-
     titulo = models.CharField(max_length = 200, unique=True)
     director = models.ManyToManyField(Director, blank=True)
     video = models.CharField(max_length = 500, unique=True, blank=True)

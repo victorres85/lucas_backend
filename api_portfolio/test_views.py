@@ -34,10 +34,7 @@ class Test_Trabalhos_ViewSet(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         trabalho_data = json.loads(response.content)[0]
-        print(trabalho_data   , '#################################################################')
-
-        print(Director.objects.filter(id = int(trabalho_data['id'])), '#####################################################################')        
-
+ 
         self.assertEqual(trabalho_data['titulo'], self.trabalho.titulo)
         self.assertEqual(trabalho_data['video'], self.trabalho.video)
         self.assertEqual(trabalho_data['data'], self.trabalho.data)
