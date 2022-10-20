@@ -1,2 +1,9 @@
 env_l
 media
+
+#Terraform
+*.pem
+
+**/.terraform/*
+*.tfstate
+*.tfstate.*
