@@ -9,7 +9,7 @@
     become: yes
   - name: Git Clone
     ansible.builtin.git:
-      repo: https://github.com/victorres85/Lucas_backend.git
+      repo: https://github.com/victorres85/bookstore01.git
       dest: /home/ubuntu/project
-      version: factory
+      version: main
  
