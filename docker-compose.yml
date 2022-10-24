@@ -17,9 +17,9 @@ services:
         image: postgres
         container_name: pgdb
         environment:
-          - SQL_DATABASE=lucas_dev_db
-          - SQL_USER=lucas_dev
-          - SQL_PASSWORD=lucas_dev
+          - POSTGRES_DB=lucas_dev
+          - POSTGRES_USER=lucas_dev
+          - POSTGRES_PASSWORD=postgres
         volumes:
           - pgdata:/var/lib/postgresql/data/
        

@@ -1,0 +1,15 @@
+- hosts: terraform-ansible
+  tasks:
+  - name: installing python3 and virtualenv
+    apt:
+       pkg:
+       - python3
+       - virtualenv
+       update_cache: yes
+    become: yes
+  - name: Git Clone
+    ansible.builtin.git:
+      repo: https://github.com/victorres85/Lucas_backend.git
+      dest: /home/ubuntu/project
+      version: factory
+ 
